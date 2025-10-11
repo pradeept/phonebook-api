@@ -1,13 +1,13 @@
 import type { User } from "../types/userType.ts";
-import { pool } from "./db.ts";
+import { pool } from "../configs/db.ts";
 
-export const getEntries = async (user:User) => {
+export const getEntries = async (user: User) => {
   const fetchQuery = `
     SELECT p.name, p.email, p.phone FROM phonebookapp.phonebook as p join phonebookapp.user as u on p.owner = $1;
   `;
 
   try {
-    const result = await pool.query(fetchQuery,[user.id]);
+    const result = await pool.query(fetchQuery, [user.id]);
     return result;
   } catch (error) {
     console.error("Error inserting phone book entry:", error);

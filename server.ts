@@ -1,7 +1,7 @@
 import { configDotenv } from "dotenv";
 configDotenv();
 import express from "express";
-import { pool } from "./models/db.ts";
+import { pool } from "./configs/db.ts";
 import { createTable } from "./models/table.ts";
 import homeRoute from "./routes/homeRoute.ts";
 import authRouter from "./routes/authRoute.ts";

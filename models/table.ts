@@ -1,4 +1,4 @@
-import { pool } from "./db.ts";
+import { pool } from "../configs/db.ts";
 
 const client = pool.connect();
 

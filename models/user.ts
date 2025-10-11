@@ -1,5 +1,5 @@
 import type { RegisterRequest } from "../controllers/auth.ts";
-import { pool } from "./db.ts";
+import { pool } from "../configs/db.ts";
 
 export const findUser = async (email: string, password: string) => {
   const query = `SELECT * FROM phonebookapp.user WHERE email='${email}'`;
