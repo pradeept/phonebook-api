@@ -1,7 +1,7 @@
-import type { userType } from "../types/userType.ts";
+import type { User } from "../types/userType.ts";
 import { pool } from "./db.ts";
 
-export const getEntries = async (user:userType) => {
+export const getEntries = async (user:User) => {
   const fetchQuery = `
     SELECT p.name, p.email, p.phone FROM phonebookapp.phonebook as p join phonebookapp.user as u on p.owner = $1;
   `;
@@ -21,7 +21,7 @@ export const createEntry = async (
   phone: string
 ) => {
   const insertQuery = `
-    INSERT INTO phonebook (name, email, phone)
+    INSERT INTO phonebookapp.phonebook (name, email, phone)
     VALUES ($1, $2, $3)
     RETURNING *;
   `;

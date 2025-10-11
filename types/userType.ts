@@ -1,10 +1,8 @@
-type userType = {
+export interface User {
   id: string;
   email: string;
   first_name: string;
   last_name: string;
   city: string;
-  pasword: string;
-};
-
-export { userType };
+  password: string;
+}
