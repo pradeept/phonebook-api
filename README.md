@@ -4,10 +4,12 @@
 
 - CRUD.
 - Auth (jwt & middleware).
+- Rater limiter.
 
 ### Upcoming
 
+- Verify email (registration)
 - Cache DB queries.
-- Add rate limiter.
 - Convert to monorepo.
-- Tests
+- Add Tests.
+- API documentation using swagger.
