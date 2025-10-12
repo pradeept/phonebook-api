@@ -8,7 +8,8 @@
 
 ### Upcoming
 
-- Verify email (registration)
+- Verify email (registration).
+- Idempotency.
 - Cache DB queries.
 - Convert to monorepo.
 - Add Tests.
