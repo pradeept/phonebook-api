@@ -5,7 +5,7 @@ import {
   insertController,
   listController,
 } from "../controllers/operations.ts";
-import { authenticated } from "../utils/middleware.ts";
+import { authenticated } from "../middlewares/tokenVerifier.ts";
 
 const homeRoute = Router();
 

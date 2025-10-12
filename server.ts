@@ -1,17 +1,25 @@
 import { configDotenv } from "dotenv";
 configDotenv();
-import express from "express";
-import { pool } from "./configs/db.ts";
+import express, {
+  type NextFunction,
+  type Request,
+  type Response,
+} from "express";
+import { disconnectPg, pool } from "./configs/db.ts";
 import { createTable } from "./models/table.ts";
 import homeRoute from "./routes/homeRoute.ts";
 import authRouter from "./routes/authRoute.ts";
 import cookieParser from "cookie-parser";
+import { rateLimiter } from "./middlewares/rateLimiter.ts";
+import { disconnectRedis } from "./configs/redis.ts";
 
 const app = express();
 
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(rateLimiter);
 
 (async () => {
   try {
@@ -35,4 +43,11 @@ app.use((req, res) => {
 
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
+});
+
+// close redis and db connection
+process.on("SIGINT", async () => {
+  await disconnectRedis();
+  await disconnectPg();
+  process.exit(0);
 });

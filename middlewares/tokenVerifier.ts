@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import type { userType } from "../types/userType.ts";
+import type { User } from "../types/userType.ts";
 
 const authenticated = (req: Request, res: Response, next: NextFunction) => {
   const cookies = req.cookies;
@@ -16,7 +16,7 @@ const authenticated = (req: Request, res: Response, next: NextFunction) => {
         return res.status(403).json({ message: "Invalid or expired token" });
       }
       //@ts-ignore
-      req.user = decoded as userType;
+      req.user = decoded as User;
       next();
     }
   );

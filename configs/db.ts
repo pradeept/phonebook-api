@@ -2,7 +2,7 @@ import { configDotenv } from "dotenv";
 configDotenv();
 import { Pool } from "pg";
 
-const pool = new Pool({
+export const pool = new Pool({
   database: process.env.DB_NAME,
   host: process.env.DB_HOST,
   port: 5432,
@@ -10,4 +10,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
 });
 
-export { pool };
+export const disconnectPg = async () => {
+  await pool.end();
+  console.log("DB Connection closed!");
+};
