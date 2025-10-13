@@ -3,7 +3,7 @@ import {
   deleteEntry,
   editEntry,
   getEntries,
-} from "../models/phonebook.ts";
+} from "../db/queries/phonebook.ts";
 import type { Request, Response } from "express";
 
 const listController = async (req: Request, res: Response) => {

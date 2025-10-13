@@ -4,7 +4,7 @@ import { redis } from "../configs/redis.ts";
 /*
     Rate limiter to limit the number of requests made by an IP at 
     a particular time window.
-    ALLOWING: 5 requests with 60 seconds time window. 
+    ALLOWING: 5 requests withing 60 seconds time window. 
              Max connections - 10.  
 */
 

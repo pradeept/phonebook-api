@@ -2,17 +2,17 @@ import { type Request, type Response } from "express";
 import * as z from "zod";
 import type { User } from "../types/userType.ts";
 import jwt from "jsonwebtoken";
-import { createUser, findUser } from "../models/user.ts";
+import { createUser, findUser } from "../db/queries/user.ts";
 
 const generateToken = (user: User) => {
-  return jwt.sign(user, process.env.JWT_SECRET!,{expiresIn:60*60}); // expires in 1hr
+  return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: 60 * 60 }); // expires in 1hr
 };
 
 export const loginController = async (req: Request, res: Response) => {
   const body: Partial<User> = req.body;
 
   if (!body || !body.email || !body.password) {
-    res.status(400).send("Invalid request");
+    return res.status(400).send("Invalid request");
   }
 
   const regex =
@@ -27,15 +27,17 @@ export const loginController = async (req: Request, res: Response) => {
   if (
     userData.safeParse({ email: body.email, password: body.password }).error
   ) {
-    res.status(400).send("Please check your email and password format!");
+    return res.status(400).send("Please check your email and password format!");
   } else {
     const user = await findUser(body.email!, body.password!);
     if (user) {
       const token = generateToken(user);
       res.cookie("token", `Bearer ${token}`);
-      res.status(200).send("Logged in!");
+      return res.status(200).send({ status: "success", message: "Logged In" });
     } else {
-      res.status(403).send("Invalid username or password!");
+      return res
+        .status(403)
+        .send({ status: "fail", message: "Invalid username or password!" });
     }
   }
 };

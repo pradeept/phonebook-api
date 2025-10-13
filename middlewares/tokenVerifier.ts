@@ -4,8 +4,11 @@ import type { User } from "../types/userType.ts";
 
 const authenticated = (req: Request, res: Response, next: NextFunction) => {
   const cookies = req.cookies;
-  if(!cookies["token"]){
-    res.status(401).send("Forbidden!")
+  if (!cookies) {
+    return res.status(400).send("Bad Request!");
+  }
+  if (!cookies["token"]) {
+    return res.status(401).send("Forbidden!");
   }
   jwt.verify(
     cookies["token"].split(" ")[1],

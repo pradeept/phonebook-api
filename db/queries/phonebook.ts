@@ -1,5 +1,5 @@
-import type { User } from "../types/userType.ts";
-import { pool } from "../configs/db.ts";
+import type { User } from "../../types/userType.ts";
+import { pool } from "../../configs/db.ts";
 
 export const getEntries = async (user: User) => {
   const fetchQuery = `

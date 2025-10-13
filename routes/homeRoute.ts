@@ -4,7 +4,7 @@ import {
   editController,
   insertController,
   listController,
-} from "../controllers/operations.ts";
+} from "../controllers/phonebook.ts";
 import { authenticated } from "../middlewares/tokenVerifier.ts";
 
 const homeRoute = Router();
