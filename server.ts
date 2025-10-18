@@ -1,14 +1,14 @@
 import { configDotenv } from "dotenv";
 configDotenv();
 import express from "express";
-import { pool } from "./configs/db.ts";
-import { createTable } from "./db/models/table.ts";
-import homeRoute from "./routes/homeRoute.ts";
-import authRouter from "./routes/authRoute.ts";
+import { pool } from "./src/configs/db.ts";
+import { createTable } from "./src/db/models/table.ts";
+import homeRoute from "./src/routes/homeRoute.ts";
+import authRouter from "./src/routes/authRoute.ts";
 import cookieParser from "cookie-parser";
-import { rateLimiter } from "./middlewares/rateLimiter.ts";
+import { rateLimiter } from "./src/middlewares/rateLimiter.ts";
 import swaggerUi from "swagger-ui-express";
-import { swaggerSpec } from "./utils/swagger-docs.ts";
+import { swaggerSpec } from "./src/utils/swagger-docs.ts";
 
 const app = express();
 
@@ -50,7 +50,7 @@ app.use((_, res) => {
   res.status(404).send("Page not found!");
 });
 
-// start server 
+// start server
 app.listen(process.env.PORT, () => {
   console.log(`Server listening on port ${process.env.PORT}`);
 });

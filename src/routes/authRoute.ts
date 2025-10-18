@@ -122,27 +122,8 @@ import {
  *                   example: "success"
  *                   description: Status of the registration request.
  *                 message:
- *                   type: object
- *                   properties:
- *                     id:
- *                       type: string
- *                       description: The user ID.
- *                     firstname:
- *                       type: string
- *                       description: The user's first name.
- *                     lastname:
- *                       type: string
- *                       description: The user's last name.
- *                     email:
- *                       type: string
- *                       description: The user's email address.
- *                     city:
- *                       type: string
- *                       description: The user's city.
- *                     password:
- *                       type: string
- *                       description: The user's password (may be hashed).
- *                   description: Success message and user object returned upon successful registration.
+ *                   type: string
+ *                   description: Success message.
  *       "400":
  *         description: Bad request due to missing or invalid parameters.
  *         content:

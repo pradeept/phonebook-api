@@ -1,12 +1,10 @@
 import { type Request, type Response } from "express";
 import * as z from "zod";
 import type { User } from "../types/userType.ts";
-import jwt from "jsonwebtoken";
 import { createUser, findUser } from "../db/queries/user.ts";
+import { generateHash } from "../lib/generateSalt.ts";
+import { generateToken } from "../lib/generateToken.ts";
 
-const generateToken = (user: User) => {
-  return jwt.sign(user, process.env.JWT_SECRET!, { expiresIn: 60 * 60 }); // expires in 1hr
-};
 
 export const loginController = async (req: Request, res: Response) => {
   const body: Partial<User> = req.body;
@@ -31,12 +29,20 @@ export const loginController = async (req: Request, res: Response) => {
   } else {
     const user = await findUser(body.email!, body.password!);
     if (user) {
+      const passwordHash = await generateHash(body.password);
+      if (passwordHash === user.password) {
+        return res
+          .status(401)
+          .send({ status: "fail", message: "Invalid username or password!" });
+      }
       const token = generateToken(user);
       res.cookie("token", `Bearer ${token}`);
-      return res.status(200).send({ status: "success", message: "Logged In" });
+      return res
+        .status(200)
+        .send({ status: "success", message: "Logged In", token });
     } else {
       return res
-        .status(403)
+        .status(401)
         .send({ status: "fail", message: "Invalid username or password!" });
     }
   }
@@ -57,7 +63,7 @@ export const registerController = async (req: Request, res: Response) => {
     !body.lastname ||
     !body.password ||
     !body.city ||
-    !body.email 
+    !body.email
   ) {
     // bad request
     return res.status(400).send("Please provide required information!");
@@ -86,15 +92,17 @@ export const registerController = async (req: Request, res: Response) => {
     return res.status(400).send("Please check your details!");
   }
 
+  const passwordHash = await generateHash(body.password);
+
   try {
-    const newUser = createUser({
+    createUser({
       firstname: body.firstname,
       lastname: body.lastname,
       email: body.email,
-      password: body.password,
+      password: passwordHash,
       city: body.city,
     });
-    return res.status(201).send(newUser);
+    return res.status(201).send("Registration successful!");
   } catch (e) {
     console.log(e);
     return res
