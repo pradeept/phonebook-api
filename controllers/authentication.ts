@@ -56,7 +56,8 @@ export const registerController = async (req: Request, res: Response) => {
     !body.firstname ||
     !body.lastname ||
     !body.password ||
-    !body.city
+    !body.city ||
+    !body.email 
   ) {
     // bad request
     return res.status(400).send("Please provide required information!");
